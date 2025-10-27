@@ -23,16 +23,3 @@ playground = "smithery.cli.playground:main"
 # Points to your server function
 [tool.smithery] 
 server = "solvedac_server.server:create_server"
-
-# ------------------------------------------
-# [tool.uv.dev-dependencies] 또는 [tool.smithery.dev-dependencies] 등을 사용
-# 여기서는 일반적인 개발 종속성 섹션을 사용한다고 가정
-# ------------------------------------------
-
-[tool.uv.dev-dependencies]
-dev = [
-    "pytest",
-    "pytest-asyncio",
-    "uv", # 종속성 관리를 위해 uv 자체도 필요할 수 있음
-    "pytest-cov", # 커버리지 측정용 (선택)
-]
