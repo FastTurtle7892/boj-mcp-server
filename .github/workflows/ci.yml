@@ -5,10 +5,10 @@ name: FastMCP CI Tests
 on:
   # Pull Request가 열리거나 업데이트될 때 실행
   pull_request:
-    branches: [ * ]
+    branches: [ main ]
   # main 브랜치에 직접 푸시될 때 실행
   push:
-    branches: [ * ]
+    branches: [ '*' ]
 
 jobs:
   build_and_test:
