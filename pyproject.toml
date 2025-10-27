@@ -24,17 +24,6 @@ playground = "smithery.cli.playground:main"
 [tool.smithery] 
 server = "solvedac_server.server:create_server"
 
-[project.dependencies]
-dependencies = [
-    "anthropic>=0.71.0",
-    "fastmcp>=2.12.5",
-    "openai>=2.5.0",
-    "python-dotenv>=1.1.1",
-    "smithery>=0.4.2",
-    # httpx는 fastmcp 내부에서 사용되거나, 직접 사용되므로 명시적으로 추가 권장
-    "httpx",
-]
-
 # ------------------------------------------
 # [tool.uv.dev-dependencies] 또는 [tool.smithery.dev-dependencies] 등을 사용
 # 여기서는 일반적인 개발 종속성 섹션을 사용한다고 가정
