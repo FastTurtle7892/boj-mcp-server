@@ -1,6 +1,0 @@
-echo "fastmcp" >> requirements.txt
-echo "httpx" >> requirements.txt
-echo "pydantic" >> requirements.txt
-echo "uvicorn[standard]" >> requirements.txt
-echo "pytest" >> requirements.txt
-echo "pytest-asyncio" >> requirements.txt
