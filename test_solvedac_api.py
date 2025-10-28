@@ -1,7 +1,7 @@
 import pytest
 import asyncio
 from unittest.mock import MagicMock, patch
-from solvedac_server import create_server, UserShowResponse, ProblemSearchResponse, Problem
+from solvedac_server.server import create_server, UserShowResponse, ProblemSearchResponse, Problem
 from fastmcp import FastMCP, Client
 
 # ----------------------------------------
