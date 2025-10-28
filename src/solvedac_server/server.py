@@ -12,86 +12,61 @@ from smithery.decorators import smithery
 from pydantic import BaseModel, Field, ConfigDict, computed_field
 from typing import List, Optional # (다른 클래스에서 필요할 수 있으니 추가)
 
-class TierInfo(BaseModel):
-    level: int
-    name: str
-    main_tier: str
-    symbol: str
-    color_hex: str
+TIER_NAMES = ["Bronze", "Silver", "Gold", "Platinum", "Diamond", "Ruby"]
+TIER_SYMBOLS = ["V", "IV", "III", "II", "I"]
+
+def get_tier_name_from_level(level: int) -> str:
+    """solved.ac의 숫자 레벨을 문자열 티어 이름(예: Platinum V)으로 변환합니다."""
+    if level == 0:
+        return "Unrated"
+    
+    if 1 <= level <= 30:
+        # (level - 1) // 5 = 0(Bronze) ~ 5(Ruby)
+        tier_index = (level - 1) // 5
+        # (level - 1) % 5 = 0(V) ~ 4(I)
+        sub_tier_index = (level - 1) % 5
+        
+        main_tier = TIER_NAMES[tier_index]
+        symbol = TIER_SYMBOLS[sub_tier_index]
+        
+        return f"{main_tier} {symbol}"
+    
+    if level == 31:
+        return "Master"
+
+    return "Unknown"
+
 
 class UserShowResponse(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
+ 
     handle: str
-    tier: int         
+    tier: int   
     rating: int
     solvedCount: int
 
     @computed_field
     @property
-    def tier_info(self) -> TierInfo:
+    def tier_name(self) -> str:
         """
         API에서 받은 숫자 티어(self.tier)를
-        get_tier_info 헬퍼 함수를 이용해 상세 정보(TierInfo) 객체로 변환합니다.
+        헬퍼 함수를 이용해 문자열 이름(예: Platinum V)으로 변환합니다.
         """
-        return get_tier_info(self.tier)
-
-TIER_NAMES = ["Bronze", "Silver", "Gold", "Platinum", "Diamond", "Ruby"]
-TIER_SYMBOLS = ["V", "IV", "III", "II", "I"]
-TIER_COLORS = {
-    "Unrated": "#2D2D2D",
-    "Bronze": "#AD5600",
-    "Silver": "#435F7A",
-    "Gold": "#EC9A00",
-    "Platinum": "#27E2A4",
-    "Diamond": "#00B4FC",
-    "Ruby": "#FF0062",
-    "Unknown": "#B3B3B3"
-}
-
-def get_tier_info(level: int) -> TierInfo:
-    """solved.ac의 숫자 레벨을 TierInfo 객체로 변환합니다."""
-    if level == 0:
-
-        return TierInfo(
-            level=0, 
-            name="Unrated", 
-            main_tier="Unrated", 
-            symbol="-", 
-            color_hex=TIER_COLORS["Unrated"]
-        )
-    
-    if 1 <= level <= 30:
-        tier_index = (level - 1) // 5
-        sub_tier_index = (level - 1) % 5
-        
-        main_tier = TIER_NAMES[tier_index]
-        symbol = TIER_SYMBOLS[sub_tier_index]
-        name = f"{main_tier} {symbol}"
-        color_hex = TIER_COLORS[main_tier]
-        
-        return TierInfo(
-            level=level,
-            name=name,
-            main_tier=main_tier,
-            symbol=symbol,
-            color_hex=color_hex
-        )
-    
-    return TierInfo(
-        level=level,
-        name="Unknown",
-        main_tier="Unknown",
-        symbol="?",
-        color_hex=TIER_COLORS["Unknown"]
-    )
+        return get_tier_name_from_level(self.tier)
 
 class Problem(BaseModel):
     model_config = ConfigDict(extra="ignore")
     problemId: int
     titleKo: Optional[str] = None
-    level: int
+    level: int  # 원본 숫자 레벨 (예: 16)
     isSolvable: bool
+
+    @computed_field
+    @property
+    def level_name(self) -> str:
+        """숫자 레벨을 문자열 이름(예: Platinum V)으로 변환합니다."""
+        return get_tier_name_from_level(self.level)
 
 class ProblemSearchResponse(BaseModel):
     model_config = ConfigDict(extra="ignore")
