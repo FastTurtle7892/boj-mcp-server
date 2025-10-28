@@ -25,20 +25,35 @@ jobs:
       with:
         python-version: '3.13' 
 
-    # 3. 'uv' 설치 (종속성 관리에 필요한 도구)
-    - name: Install uv
-      # uv는 rust로 작성되어 매우 빠르지만, GitHub Actions에 기본 설치되어 있지 않을 수 있습니다.
-      # 종속성 설치 전, uv를 먼저 설치합니다.
-      run: pip install uv
+    # # 3. 'uv' 설치 (종속성 관리에 필요한 도구)
+    # - name: Install uv
+    #   # uv는 rust로 작성되어 매우 빠르지만, GitHub Actions에 기본 설치되어 있지 않을 수 있습니다.
+    #   # 종속성 설치 전, uv를 먼저 설치합니다.
+    #   run: pip install uv
       
-    # 4. 의존성 설치 (pyproject.toml 기반)
-    # --dev 플래그를 사용하여 [tool.uv.dev-dependencies] 섹션에 정의된 
-    # pytest, pytest-asyncio 등 개발 종속성까지 모두 설치합니다.
-    - name: Install dependencies (using uv sync)
-      run: |
-        uv sync --dev 
+    # # 4. 의존성 설치 (pyproject.toml 기반)
+    # # --dev 플래그를 사용하여 [tool.uv.dev-dependencies] 섹션에 정의된 
+    # # pytest, pytest-asyncio 등 개발 종속성까지 모두 설치합니다.
+    # - name: Install dependencies (System install)
+    #   run: |
+    #     uv pip install --system --group dev
         
+    # # 5. 테스트 실행
+    # - name: Run tests with pytest
+    #   # pytest 명령어가 uv 환경 내에서 실행됩니다.
+    #   run: pytest -v --strict-markers
+
+    # 3. 'uv' 설치 (필요 없음, 삭제)
+
+    # 4. 의존성 설치 (가장 간단하고 확실한 방법으로 변경)
+    - name: Install core and test dependencies
+      run: |
+        # 1. pyproject.toml에 명시된 주요 종속성 설치
+        pip install . 
+        # 2. 테스트에 필요한 종속성 (pytest 등) 개별 설치
+        pip install pytest pytest-asyncio 
+
     # 5. 테스트 실행
     - name: Run tests with pytest
-      # pytest 명령어가 uv 환경 내에서 실행됩니다.
+      # pip install로 pytest가 설치되었으므로, 바로 실행 가능
       run: pytest -v --strict-markers
