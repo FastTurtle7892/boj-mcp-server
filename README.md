@@ -1,11 +1,17 @@
 # MCP Server for BOJ
 
-**BOJ를 위한 Model Context Protocol (MCP) 서버입니다.**  
+### **BOJ를 위한 Model Context Protocol (MCP) 서버입니다.**  
 AI 어시스턴트가 solved.ac의 사용자 정보와 문제 데이터를 조회할 수 있도록 해줍니다.
 
+---
+
+### **pytest status**
 [![FastMCP CI Tests](https://github.com/Junwoo-Seo-1998/boj-mcp-server/actions/workflows/ci.yml/badge.svg)](https://github.com/Junwoo-Seo-1998/boj-mcp-server/actions/workflows/ci.yml)
+
+---
+### **solved.ac 사이트의 MCP  저장소**
 [![smithery badge](https://smithery.ai/badge/@Junwoo-Seo-1998/boj-mcp-server)](https://smithery.ai/server/@Junwoo-Seo-1998/boj-mcp-server)
-solved.ac 사이트의 MCP 테스트 저장소
+
 ---
 
 ## 특징 (Features)
