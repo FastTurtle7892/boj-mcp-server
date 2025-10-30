@@ -1,7 +1,8 @@
 import pytest
 import pytest_asyncio
 from unittest.mock import MagicMock, patch
-from solvedac_server.server import create_server, UserShowResponse, ProblemSearchResponse
+from solvedac_server.server import create_server, UserShowResponse
+from solvedac_server.search_query import ProblemSearchResponse
 from fastmcp import FastMCP, Client
 from mcp.shared.exceptions import McpError
 
